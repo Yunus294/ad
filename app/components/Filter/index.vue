@@ -4,7 +4,7 @@ const items = ref(['Backlog', 'Todo', 'In Progress', 'Done'])
 </script>
 
 <template>
-    <div class="p-4 flex-col flex border justify-center  rounded-lg border-gray-700">
+    <div class="p-4 flex-col md:flex border justify-center hidden rounded-lg border-gray-700">
         <p class="font-medium text-xl ">Filter</p>
         <div class="flex flex-col gap-2 mt-4">
             <p>Ad type</p>

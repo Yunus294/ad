@@ -2,7 +2,16 @@
 @import "@nuxt/ui";
 
 body{
-    max-width: 1200px;
+    max-width: 1600px;
     padding: 16px;
     margin: 0 auto;
+}
+
+html::-webkit-scrollbar {
+  display: none; 
+}
+
+html {
+  -ms-overflow-style: none; 
+  scrollbar-width: none; 
 }

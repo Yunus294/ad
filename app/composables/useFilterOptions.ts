@@ -13,7 +13,6 @@ export function useFilterOptions() {
     cities.value = Array.from(new Set(ads.map(ad => ad.city)))
   }
 
-  // Load options immediately when composable is created
   loadFilterOptions()
 
   const typeOptions = computed(() => 

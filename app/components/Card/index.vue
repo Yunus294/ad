@@ -54,7 +54,6 @@ const filteredAds = computed(() => {
 </script>
 
 <template>
-    <!-- Loading State -->
     <div v-if="isLoading" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="i in 6" :key="i" class="animate-pulse">
             <div class="bg-gray-800 rounded-2xl overflow-hidden">
@@ -72,7 +71,6 @@ const filteredAds = computed(() => {
         </div>
     </div>
 
-    <!-- Content -->
     <div v-else-if="filteredAds.length > 0" class="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
         <div v-for="ad in filteredAds" :key="ad.id"
             class="group flex flex-col bg-gradient-to-br from-gray-900 to-gray-800 border border-gray-700 rounded-2xl shadow-xl overflow-hidden transition-all duration-500 hover:-translate-y-3 hover:shadow-2xl hover:border-blue-500/50 hover:shadow-blue-500/10">

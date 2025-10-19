@@ -27,8 +27,15 @@ async function handleSubmitComment() {
 
   try {
     addComment(props.ad.id, newComment.value.trim())
-    // Refresh local comments to show the new one
-    localComments.value = [...(props.ad.comments || [])]
+    
+    const newCommentObj: Comment = {
+      id: crypto.randomUUID(),
+      text: newComment.value.trim(),
+      author: 'User',
+      createdAt: new Date()
+    }
+    localComments.value.push(newCommentObj)
+    
     newComment.value = ""
     emit("commentAdded")
   } catch (error) {
@@ -42,9 +49,15 @@ function handleClose() {
   emit("close")
 }
 
-function formatDate(date: Date): string {
+function formatDate(date: Date | string): string {
+  const dateObj = date instanceof Date ? date : new Date(date)
+  
+  if (isNaN(dateObj.getTime())) {
+    return 'Unknown time'
+  }
+  
   const now = new Date()
-  const diff = now.getTime() - date.getTime()
+  const diff = now.getTime() - dateObj.getTime()
   const minutes = Math.floor(diff / 60000)
   
   if (minutes < 1) return 'Just now'
@@ -84,11 +97,11 @@ function formatDate(date: Date): string {
             <div class="flex items-start gap-3">
               <div
                 class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm font-semibold">
-                {{ comment.author.charAt(0).toUpperCase() }}
+                {{ comment.author ? comment.author.charAt(0).toUpperCase() : '?' }}
               </div>
               <div class="flex-1">
                 <div class="flex items-center gap-2 mb-1">
-                  <span class="text-white font-medium">{{ comment.author }}</span>
+                  <span class="text-white font-medium">{{ comment.author || 'Anonymous' }}</span>
                   <span class="text-gray-400 text-sm">•</span>
                   <span class="text-gray-400 text-sm">{{ formatDate(comment.createdAt) }}</span>
                 </div>

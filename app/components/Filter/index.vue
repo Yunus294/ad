@@ -58,7 +58,6 @@ function clearFilter() {
 
         <div class="space-y-6">
             <div class="space-y-2">
-                <!-- Fixed USelect with correct props -->
                 <USelect 
                     v-model="selectedType" 
                     :items="typeOptions" 

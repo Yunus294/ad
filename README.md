@@ -1,75 +1,26 @@
-# Nuxt Minimal Starter
+# My Project
 
-Look at the [Nuxt documentation](https://nuxt.com/docs/getting-started/introduction) to learn more.
+A brief description of the project, what it does, and the technologies used.
 
-## Setup
+## Screenshot
 
-Make sure to install dependencies:
+![Project Screenshot](./app/assets/img/image.png)
+
+> You can add a caption or description for the screenshot here.
+
+## Technologies Used
+
+- **Nuxt 4** — for server-side rendering and SPA
+- **Vue 3** — frontend framework
+- **TailwindCSS** — styling
+- **Vue Router** — routing
+- **PWA** — offline support
+- **Playwright** — automated testing
+
+## Installation
 
 ```bash
-# npm
+git clone https://github.com/Yunus294/ad.git
+cd project
 npm install
-
-# pnpm
-pnpm install
-
-# yarn
-yarn install
-
-# bun
-bun install
-```
-
-## Development Server
-
-Start the development server on `http://localhost:3000`:
-
-```bash
-# npm
 npm run dev
-
-# pnpm
-pnpm dev
-
-# yarn
-yarn dev
-
-# bun
-bun run dev
-```
-
-## Production
-
-Build the application for production:
-
-```bash
-# npm
-npm run build
-
-# pnpm
-pnpm build
-
-# yarn
-yarn build
-
-# bun
-bun run build
-```
-
-Locally preview production build:
-
-```bash
-# npm
-npm run preview
-
-# pnpm
-pnpm preview
-
-# yarn
-yarn preview
-
-# bun
-bun run preview
-```
-
-Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.

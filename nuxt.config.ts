@@ -1,5 +1,6 @@
 // https://nuxt.com/docs/api/configuration/nuxt-config
 export default defineNuxtConfig({
+  ssr: false,
   compatibilityDate: "2025-07-15",
   devtools: { enabled: true },
   modules: ["@nuxt/ui", "@vite-pwa/nuxt"],
@@ -27,6 +28,11 @@ export default defineNuxtConfig({
     },
     workbox: {
       globPatterns: ["**/*.{js,css,html,ico,png,svg}"],
+      navigateFallback: '/index.html'
     },
+    devOptions: {
+      enabled: true,
+      type: "module"
+    }
   },
 });

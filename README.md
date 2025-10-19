@@ -6,7 +6,6 @@ A brief description of the project, what it does, and the technologies used.
 
 ![Project Screenshot](./app/assets/img/image.png)
 
-> You can add a caption or description for the screenshot here.
 
 ## Technologies Used
 

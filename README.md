@@ -4,7 +4,8 @@ A brief description of the project, what it does, and the technologies used.
 
 ## Screenshot
 
-![Project Screenshot](./app/assets/img/image.png)
+![Another Screenshot](./app/assets/img/mobile.png)
+![Project Screenshot](./app/assets/img/dec.png)
 
 
 ## Technologies Used

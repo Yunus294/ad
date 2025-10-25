@@ -4,6 +4,7 @@ import { useAdFilters } from "../composables/useAds"
 import { APP_CONFIG } from "@/constants"
 import type { FilterState } from "@/services/ads/model"
 import FilterDrawer from "@/components/Filter/Drawer.vue"
+import Filter from "@/components/Filter/index.vue"
 
 const { filters, updateFilters } = useAdFilters()
 const showFilterDrawer = ref(false)
@@ -36,14 +37,14 @@ function handleCloseDrawer() {
 }
 </script>
 <template>
-    <div v-if="isPageLoading" class="fixed inset-0 bg-gray-900 z-50 flex items-center justify-center">
+    <div v-if="isPageLoading" class="fixed inset-0 bg-gray-50 z-50 flex items-center justify-center">
         <div class="text-center">
             <div class="animate-spin rounded-full h-16 w-16 border-b-2 border-blue-500 mx-auto mb-4"></div>
-            <p class="text-white text-xl font-medium">Loading {{ APP_CONFIG.APP_NAME }}...</p>
+            <p class="text-gray-700 text-xl font-medium">Loading {{ APP_CONFIG.APP_NAME }}...</p>
         </div>
     </div>
 
-    <div v-else>
+    <div v-else class="min-h-screen bg-gray-50 p-4 ">
         <Header @search="handleHeaderSearch" @toggleLiked="handleToggleLiked"
             @toggleFilterDrawer="handleToggleFilterDrawer" />
 
@@ -57,7 +58,9 @@ function handleCloseDrawer() {
         </div>
 
         <div class="md:hidden mt-8 w-full">
-            <Card :filters="filters" />
+            <div class="container mx-auto pb-8">
+                <Card :filters="filters" />
+            </div>
         </div>
 
         <FilterDrawer v-if="showFilterDrawer" @applyFilter="handleFilterChange" @close="handleCloseDrawer" />

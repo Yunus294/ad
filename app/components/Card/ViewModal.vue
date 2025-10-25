@@ -1,105 +1,111 @@
 <script lang="ts" setup>
-import { ref } from "vue"
-import type { AdModel } from "@/services/ads/model"
+import { ref } from "vue";
+import type { AdModel } from "@/services/ads/model";
 
 const props = defineProps<{
-  ad: AdModel | null
-}>()
+  ad: AdModel | null;
+}>();
 
-const emit = defineEmits(["close"])
+const emit = defineEmits(["close"]);
 
 function handleClose() {
-  emit("close")
+  emit("close");
 }
 </script>
 
 <template>
-  <div class="fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center p-4" @click="handleClose">
-    <div class="bg-gray-900 rounded-2xl max-w-4xl w-full max-h-[90vh] overflow-hidden shadow-2xl" @click.stop>
-      <div class="relative">
-        <img :src="props.ad?.image" :alt="props.ad?.title" class="w-full h-80 object-cover" />
-
-        <button @click="handleClose"
-          class="absolute top-4 right-4 p-2 bg-black/50 rounded-full text-white hover:bg-black/70 transition-colors">
-          <i class="ti ti-x text-xl"></i>
-        </button>
-
-        <div class="absolute top-4 left-4">
-          <span class="bg-blue-500/90 text-white text-sm font-medium px-4 py-2 rounded-full capitalize">
-            {{ props.ad?.type }}
-          </span>
-        </div>
-
-        <div class="absolute bottom-4 right-4">
-          <div class="flex items-center bg-green-500/90 text-white px-4 py-2 rounded-full backdrop-blur-sm">
-            <i class="ti ti-star-filled mr-2"></i>
-            <span class="font-semibold text-lg">{{ props.ad?.rating }}</span>
+  <div class="fixed inset-0 bg-black/20 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+    @click="handleClose">
+    <div class="bg-white rounded-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden shadow-xl" @click.stop>
+      <div class="flex items-center justify-between p-6 border-b border-gray-100">
+        <div class="flex items-center gap-3">
+          <img :src="props.ad?.author?.avatar ||
+            `https://i.pravatar.cc/150?img=${Math.floor(Math.random() * 70) + 1
+            }`
+            " :alt="props.ad?.author?.name || 'User'" class="w-10 h-10 rounded-full object-cover" />
+          <div>
+            <h2 class="font-semibold text-gray-900">
+              {{ props.ad?.author?.name || "Anonymous" }}
+            </h2>
+            <p class="text-sm text-gray-500">
+              {{ props.ad?.category || "General" }}
+            </p>
           </div>
         </div>
+
+        <button @click="handleClose" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+          <i class="ti ti-x text-gray-400 text-[20px]"></i>
+        </button>
       </div>
 
-      <div class="p-8">
-        <div class="mb-6">
-          <h1 class="text-white font-bold text-3xl mb-3">{{ props.ad?.title }}</h1>
+      <div class="p-6 space-y-6">
+        <div>
+          <h1 class="font-bold text-gray-900 text-2xl mb-2">
+            {{ props.ad?.title }}
+          </h1>
+          <div class="flex items-center text-gray-500 text-sm mb-4">
+            <i class="ti ti-map-pin mr-2"></i>
+            <span>{{ props.ad?.city }}</span>
+          </div>
+        </div>
 
-          <div class="flex items-center text-gray-400 text-lg mb-4">
-            <i class="ti ti-map-pin mr-3 text-blue-400"></i>
-            <span>{{ props.ad?.city }}, {{ props.ad?.country }}</span>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <i class="ti ti-calendar text-gray-500"></i>
+              <span class="text-sm font-medium text-gray-700">Duration</span>
+            </div>
+            <p class="text-gray-900 font-semibold">
+              {{ props.ad?.duration || "4 days" }}
+            </p>
           </div>
 
-          <p class="text-gray-300 text-lg leading-relaxed">
-            Experience the perfect blend of comfort and luxury in this beautiful {{ props.ad?.type }} located in the
-            heart of {{ props.ad?.city }}.
-            This stunning accommodation offers modern amenities, breathtaking views, and easy access to local
-            attractions.
-            Perfect for both business and leisure travelers seeking an unforgettable stay.
+          <div class="bg-gray-50 p-4 rounded-lg">
+            <div class="flex items-center gap-2 mb-2">
+              <i class="ti ti-clock text-gray-500"></i>
+              <span class="text-sm font-medium text-gray-700">Priority</span>
+            </div>
+            <div class="flex gap-2">
+              <div class="text-red-500 bg-red-200 px-2 py-1 rounded-full flex items-center gap-1">
+                <i class="ti ti-flag-filled text-red-600"></i>
+                {{ props?.ad?.priority || Math.floor(Math.random() * 9) + 1 }}
+              </div>
+              <div class="text-green-700 bg-[#a6cf80] px-2 py-1 rounded-full flex items-center gap-1">
+                <i class="ti ti-star-filled text-green-800"></i>
+                {{ props?.ad?.rating || Math.floor(Math.random() * 5) + 1 }}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <h3 class="font-semibold text-gray-900 mb-3">Task Description</h3>
+          <p class="text-gray-600 leading-relaxed">
+            {{
+              props.ad?.description ||
+              "This task requires attention to detail and professional execution. The client is looking for someone reliable and experienced to complete this work efficiently."
+            }}
           </p>
         </div>
 
-        <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
-          <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-            <i class="ti ti-wifi text-2xl text-blue-400 mb-2"></i>
-            <p class="text-white text-sm">Free WiFi</p>
-          </div>
-          <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-            <i class="ti ti-car text-2xl text-green-400 mb-2"></i>
-            <p class="text-white text-sm">Parking</p>
-          </div>
-          <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-            <i class="ti ti-snowflake text-2xl text-cyan-400 mb-2"></i>
-            <p class="text-white text-sm">Air Conditioning</p>
-          </div>
-          <div class="bg-gray-800/50 p-4 rounded-lg text-center">
-            <i class="ti ti-swimming text-2xl text-blue-400 mb-2"></i>
-            <p class="text-white text-sm">Pool Access</p>
-          </div>
-        </div>
-
-        <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-8">
-          <div class="flex gap-6 mb-4 md:mb-0">
-            <div class="flex items-center text-gray-300">
-              <i class="ti ti-heart mr-2 text-red-400"></i>
-              <span>{{ props.ad?.likes || 0 }} likes</span>
+        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+          <div class="flex items-center gap-6">
+            <div class="flex items-center gap-1 text-gray-500">
+              <i class="ti ti-heart text-[16px]"></i>
+              <span class="text-sm font-medium">{{ props.ad?.likes || 0 }} likes</span>
             </div>
-            <div class="flex items-center text-gray-300">
-              <i class="ti ti-message-circle mr-2 text-blue-400"></i>
-              <span>{{ props.ad?.comments.length }} comments</span>
+            <div class="flex items-center gap-1 text-gray-500">
+              <i class="ti ti-message-dots text-[16px]"></i>
+              <span class="text-sm font-medium">{{ props.ad?.comments?.length || 0 }} comments</span>
             </div>
           </div>
-
-          <div class="text-right">
-            <p class="text-gray-400 text-sm">Starting from</p>
-            <p class="text-white font-bold text-4xl">${{ props.ad?.price.toLocaleString() }}</p>
-            <p class="text-gray-400 text-sm">per night</p>
-          </div>
         </div>
 
-        <div class="flex flex-col sm:flex-row gap-4">
-          <UButton size="xl" color="primary" icon="i-heroicons-phone" label="Contact Owner"
-            class="flex-1 justify-center font-medium" />
-          <UButton size="xl" color="secondary" icon="i-heroicons-heart" label="Add to Favorites"
-            class="flex-1 justify-center font-medium" />
-        </div>
+        <button
+          class="flex-1 w-full bg-blue-500 text-white px-6 py-3 rounded-lg font-medium hover:bg-blue-600 transition-colors">
+          <i class="ti ti-send mr-2"></i>
+          Contact Task Owner
+        </button>
       </div>
     </div>
   </div>

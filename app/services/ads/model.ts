@@ -1,11 +1,21 @@
 export interface AdModel {
+  price: number;
+  type: string;
+  country: string;
   id: string;
   title: string;
-  country: string;
+  description: string;
   city: string;
-  price: number;
-  rating: number;
-  type: AdType;
+  author: {
+    name: string;
+    avatar: string;
+  };
+  priority: number;
+  rating: number; 
+  startDate: string;
+  endDate: string;
+  duration: string;
+  category: string;
   image: string;
   comments: Comment[];
   likes: number;

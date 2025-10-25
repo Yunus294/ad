@@ -9,10 +9,7 @@ const emit = defineEmits(["search", "toggleLiked", "toggleFilterDrawer"])
 let searchTimeout: ReturnType<typeof setTimeout> | null = null
 
 function handleSearch() {
-    if (searchTimeout) {
-        clearTimeout(searchTimeout)
-    }
-
+    if (searchTimeout) clearTimeout(searchTimeout)
     searchTimeout = setTimeout(() => {
         emit("search", searchQuery.value.trim())
     }, APP_CONFIG.SEARCH_DEBOUNCE)
@@ -27,29 +24,30 @@ function toggleFilterDrawer() {
     emit("toggleFilterDrawer")
 }
 
-watch(searchQuery, () => {
-    handleSearch()
-})
+watch(searchQuery, handleSearch)
 </script>
 
 <template>
-    <div class="flex items-center gap-4 justify-between p-4 bg-gray-900 border border-gray-700 rounded-xl">
-        <div class="flex gap-3 items-center">
-            <i class="ti ti-ad-filled text-4xl text-green-500"></i>
-            <p class="text-2xl font-bold text-white hidden md:flex">{{ APP_CONFIG.APP_NAME }}</p>
+    <div
+        class="flex items-center justify-between md:p-4 md:bg-white md:border md:border-gray-200 rounded-xl md:shadow-sm md:gap-4">
+        <div class="hidden md:flex gap-3 items-center">
+            <i class="ti ti-ad-filled text-4xl text-green-600"></i>
+            <p class="text-2xl font-bold text-gray-900">{{ APP_CONFIG.APP_NAME }}</p>
         </div>
 
-        <div class="flex-1 max-w-lg">
-            <UInput v-model="searchQuery" placeholder="Search destinations..." size="lg" variant="outline"
-                class="w-full" :loading="searchQuery.length > 0" icon="i-heroicons-magnifying-glass" />
+        <div class="flex-1 border border-gray-300 bg-gray-100 rounded-lg p-4 md:p-3 flex items-center gap-2 
+             md:max-w-lg w-full">
+            <input v-model="searchQuery" type="text" placeholder="Search tasks…"
+                class="flex-1 bg-transparent border-none outline-none text-gray-700 placeholder-gray-400 text-base" />
         </div>
 
-        <div class="flex gap-2">
+        <div class="hidden md:flex gap-2">
             <UButton variant="ghost"
                 :icon="showLikedOnly ? 'i-heroicons-heart-solid text-red-500' : 'i-heroicons-heart'"
-                class="hidden md:flex" @click="toggleLikedFilter" />
-            <UButton variant="ghost" icon="i-heroicons-bell" class="hidden md:flex" />
-            <UButton variant="ghost" icon="i-heroicons-bars-3" class="md:hidden" @click="toggleFilterDrawer" />
+                class="hover:bg-gray-100" @click="toggleLikedFilter" />
         </div>
+
+        <UButton variant="solid" icon="i-heroicons-bars-3"
+            class="md:hidden bg-gray-200 text-gray-700 hover:bg-gray-300 ml-2 p-[18px]" @click="toggleFilterDrawer" />
     </div>
 </template>

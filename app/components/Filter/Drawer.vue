@@ -53,6 +53,7 @@ function clearFilter() {
     showLikedOnly: false
   }
   emit("applyFilter", filters)
+  handleClose()
 }
 
 function handleClose() {
@@ -61,52 +62,74 @@ function handleClose() {
 </script>
 
 <template>
+  <div class="fixed inset-0 bg-black/20 backdrop-blur-sm z-40 md:hidden" @click="handleClose"></div>
 
-  <div class="fixed inset-0 bg-black bg-opacity-50 z-40 md:hidden" @click="handleClose"></div>
-
-
-  <div class="fixed left-0 top-0 h-full w-80 bg-gray-900 border-r border-gray-700 z-50 md:hidden">
-    <div class="flex items-center justify-between p-4 border-b border-gray-700">
-      <h2 class="text-xl font-semibold text-white">Filters</h2>
-      <button @click="handleClose" class="p-2 hover:bg-gray-800 rounded-lg transition-colors">
-        <i class="ti ti-x text-xl text-gray-400"></i>
+  <div class="fixed left-0 top-0 h-full w-80 bg-white border-r border-gray-200 z-50 md:hidden shadow-xl">
+    <div class="flex items-center justify-between p-6 border-b border-gray-100">
+      <h2 class="text-xl font-semibold text-gray-900">Filters</h2>
+      <button @click="handleClose" class="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
       </button>
     </div>
 
-    <div class="p-4 space-y-6 overflow-y-auto h-full pb-24">
-      <div class="space-y-2">
-        <p class="text-white font-medium">Ad type</p>
-        <USelect v-model="selectedType" :items="typeOptions" option-attribute="label" value-attribute="value" clearable size="xl" placeholder="Select ad type" />
+    <div class="p-6 space-y-6 overflow-y-auto h-full pb-24">
+      <div class="space-y-3">
+        <label class="block text-gray-700 font-medium">Task Category</label>
+        <select v-model="selectedType"
+          class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="">All Categories</option>
+          <option v-for="option in typeOptions" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </option>
+        </select>
       </div>
 
-      <div class="space-y-2">
-        <p class="text-white font-medium">Price</p>
-        <div class="grid grid-cols-2 gap-2">
-          <UInput v-model.number="priceFrom" placeholder="From $" size="xl" />
-          <UInput v-model.number="priceTo" placeholder="To $" size="xl" />
+      <div class="space-y-3">
+        <label class="block text-gray-700 font-medium">Priority Level</label>
+        <div class="grid grid-cols-2 gap-3">
+          <input v-model.number="priceFrom" type="number" placeholder="Min Priority" min="1" max="9"
+            class="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
+          <input v-model.number="priceTo" type="number" placeholder="Max Priority" min="1" max="9"
+            class="px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent" />
         </div>
       </div>
 
-      <div class="space-y-2">
-        <p class="text-white font-medium">City</p>
-        <USelect v-model="selectedCity" :items="cityOptions" option-attribute="label" value-attribute="value" clearable size="xl" placeholder="Select city" />
+      <div class="space-y-3">
+        <label class="block text-gray-700 font-medium">City</label>
+        <select v-model="selectedCity"
+          class="w-full px-4 py-3 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent">
+          <option value="">All Cities</option>
+          <option v-for="option in cityOptions" :key="option.value" :value="option.value">
+            {{ option.label }}
+          </option>
+        </select>
       </div>
 
-      <div class="space-y-2">
-        <p class="text-white font-medium">Rating</p>
+      <div class="space-y-3">
+        <label class="block text-gray-700 font-medium">Rating</label>
         <div class="space-y-2">
-          <UCheckbox v-for="rating in ratingOptions" :key="'rating-' + rating.value" :model-value="selectedRatings.includes(rating.value)"
-            :label="rating.label" size="lg"
-            @update:model-value="(checked) => toggleRating(rating.value, checked as any)" />
+          <label v-for="rating in ratingOptions" :key="'rating-' + rating.value" class="flex items-center">
+            <input type="checkbox" :checked="selectedRatings.includes(rating.value)"
+              @change="(e) => toggleRating(rating.value, (e.target as HTMLInputElement).checked)"
+              class="w-4 h-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500" />
+            <span class="ml-3 text-gray-700">{{ rating.label }}</span>
+          </label>
         </div>
       </div>
     </div>
 
-    <div class="absolute bottom-0 left-0 right-0 p-4 bg-gray-900 border-t border-gray-700">
-      <div class="grid grid-cols-2 gap-3">
-        <UButton size="xl" color="secondary" label="Clear" variant="outline" class="justify-center"
-          @click="clearFilter" />
-        <UButton size="xl" color="primary" label="Apply" variant="solid" class="justify-center" @click="applyFilter" />
+    <div class="absolute bottom-0 left-0 right-0 p-6 bg-gray-50 border-t border-gray-100">
+      <div class="grid grid-cols-1 gap-3">
+        <button @click="clearFilter"
+          class="px-6 py-3 border border-gray-300 text-gray-700 rounded-lg font-medium hover:bg-gray-50 transition-colors">
+          Clear All
+        </button>
+        <button @click="applyFilter"
+          class="px-6 py-3 bg-blue-500 text-white rounded-lg font-medium hover:bg-blue-600 transition-colors">
+          Apply Filters
+        </button>
       </div>
     </div>
   </div>
